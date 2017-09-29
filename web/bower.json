@@ -1,0 +1,7 @@
+{
+  "name": "Bizsys",
+  "version": "0.1.0",
+  "dependencies": {
+    "gentelella": "^1.4.0"
+  }
+}
