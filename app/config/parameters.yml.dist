@@ -17,3 +17,8 @@ parameters:
 
     # A secret key that's used to generate certain security-related tokens
     secret: ThisTokenIsNotSoSecretChangeIt
+
+    site_name: BizSys
+    site_url: 'http://bizsys.local/app_dev.php'
+    site_domain: 'http://bizsys.local'
+    site_version: 1.0.0

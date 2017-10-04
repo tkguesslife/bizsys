@@ -26,7 +26,18 @@
         "symfony/monolog-bundle": "^3.0.2",
         "symfony/swiftmailer-bundle": "~2.3,>=2.3.10",
         "symfony/symfony": "2.8.*",
-        "twig/twig": "^1.0||^2.0"
+        "twig/twig": "^1.0||^2.0",
+        "gedmo/doctrine-extensions": "^2.4",
+        "stof/doctrine-extensions-bundle": "^1.2",
+        "jms/security-extra-bundle": "^1.5",
+        "jms/di-extra-bundle": "^1.6",
+        "jms/serializer-bundle": "^1.0",
+        "friendsofsymfony/jsrouting-bundle": "^1.5",
+        "doctrine/doctrine-fixtures-bundle": "^2.2",
+        "salavert/time-ago-in-words": "^1.6",
+        "twig/extensions": "^1.3",
+        "knplabs/knp-paginator-bundle": "~2.4",
+        "friendsofsymfony/rest-bundle": "^1.5"
     },
     "require-dev": {
         "sensio/generator-bundle": "~3.0",

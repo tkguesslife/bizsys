@@ -10,3 +10,10 @@
 /vendor/
 /bin/
 /composer.phar
+/web/bundles/
+/.idea/*
+/.idea/i
+/web/.bowerrc
+/web/bower_components/
+/app/var/*
+/web/npm-debug.log
