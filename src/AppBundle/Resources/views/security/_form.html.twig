@@ -1,0 +1,19 @@
+<form action="{{ path('_security_check') }}" method="post">
+    <h1>Login </h1>
+    <div>
+        <input name="_username" id="username" type="text" class="form-control" placeholder="Email address"
+               required="required"/>
+    </div>
+    <div>
+        <input name="_password" id="password" type="password" class="form-control" placeholder="Password"
+               required="required"/>
+    </div>
+    <div>
+        <a class="btn btn-default submit" href="index.html">Log in</a>
+        <a class="reset_pass" href="#">Lost your password?</a>
+    </div>
+
+    <div class="clearfix"></div>
+
+
+</form>

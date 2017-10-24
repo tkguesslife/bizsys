@@ -10,4 +10,18 @@ namespace AppBundle\Entity\Repository;
  */
 class StatusRepository extends \Doctrine\ORM\EntityRepository
 {
+    /**
+     * Get status
+     *
+     * @param string $status
+     * @return AppBundle:Status
+     */
+    public function getStatus($status)
+    {
+        $qb = $this->createQueryBuilder('s')
+            ->where('s.name = :status_name')
+            ->setParameter('status_name', $status);
+
+        return $qb->getQuery()->getSingleResult();
+    }
 }

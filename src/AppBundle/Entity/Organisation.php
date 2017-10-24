@@ -117,30 +117,45 @@ class Organisation
      * @var User
      *
      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\User")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="CREATED_BY_ID",referencedColumnName="ID")
+     * })
      */
     private $createdBy;
 
     /**
      * @var User
      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\User")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="UPDATED_BY_ID",referencedColumnName="ID")
+     * })
      */
     private $updatedBy;
 
     /**
      * @var User
      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\User")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="DELETED_BY_ID",referencedColumnName="ID")
+     * })
      */
     private $deletedBy;
 
     /**
      * @var User
      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\User")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="SUSPENDED_BY_ID",referencedColumnName="ID")
+     * })
      */
     private $suspendedBy;
 
     /**
      * @var User
      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\User")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="ACTIVATED_BY_ID",referencedColumnName="ID")
+     * })
      */
     private $activatedBy;
 

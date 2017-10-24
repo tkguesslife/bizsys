@@ -1,0 +1,24 @@
+_security_login:
+    path:  /login.{_format}
+    defaults: { _controller: AppBundle:Security:login , _format: html}
+    schemes:  [http]
+    requirements:
+        methods:  GET|POST
+        _format:  html
+
+_security_check:
+    path:  /login_check
+    schemes:  [http]
+    requirements:
+        methods:  GET|POST
+
+_security_logout:
+    path:  /logout.html
+
+_homepage:
+    path:  /
+    defaults: { _controller: AppBundle:Security:login , _format: html}
+    schemes:  [http]
+    requirements:
+        methods:  GET|POST
+        _format:  html

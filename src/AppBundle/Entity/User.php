@@ -22,7 +22,7 @@ use JMS\Serializer\Annotation\Expose;
  *      indexes={@ORM\Index(name="search_context", columns={"username"})}
  * )
  *
- * @UniqueEntity(fields={"username"}, groups={"create","edit" ,"save_rest", "member_create"}, message="Email address is already being used by another user, please try another one."))
+ * @UniqueEntity(fields={"username"}, groups={"create","edit" ,"save_rest"}, message="Email address is already being used by another user, please try another one."))
  * @ORM\HasLifecycleCallbacks
  *
  * @Gedmo\Loggable
@@ -102,7 +102,7 @@ class User implements AdvancedUserInterface, \Serializable
     /**
      * @var ArrayCollection
      *
-     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Role", inversedBy="users")
+     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Role", inversedBy="users", cascade={"persist"})
      * @ORM\JoinTable(name="USER_ROLE_MAP",
      *     joinColumns={@ORM\JoinColumn(name="USER_ID", referencedColumnName="ID")},
      *     inverseJoinColumns={@ORM\JoinColumn(name="ROLE_ID", referencedColumnName="ID")},
@@ -131,9 +131,9 @@ class User implements AdvancedUserInterface, \Serializable
     protected $deleted = false;
 
     /**
-     * @var Status
+     * @var UserGroup
      *
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\UserGroup")
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\UserGroup", cascade={"persist"})
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="GROUP_ID", referencedColumnName="ID")
      * })
@@ -144,11 +144,11 @@ class User implements AdvancedUserInterface, \Serializable
 
 
     /**
-     * @var string
+     * @var Party
      *
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Party")
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Party", cascade={"persist"})
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="PARTY_ID",referencedColumnName="ID")
+     *   @ORM\JoinColumn(name="PARTY_ID", referencedColumnName="ID")
      * })
      * @Gedmo\Versioned
      * @Expose
@@ -157,11 +157,11 @@ class User implements AdvancedUserInterface, \Serializable
 
 
     /**
-     * @var string
+     * @var Organisation
      *
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Organisation")
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Organisation", cascade={"persist"})
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="ORGANISATION_ID",referencedColumnName="ID")
+     *   @ORM\JoinColumn(name="ORGANISATION_ID", referencedColumnName="ID")
      * })
      * @Gedmo\Versioned
      * @Expose
@@ -229,24 +229,37 @@ class User implements AdvancedUserInterface, \Serializable
     /**
      *
      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\User")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="CREATED_BY_ID", referencedColumnName="ID")
+     * })
+     *
      */
     protected $createdBy;
 
     /**
      *
      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\User")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="DELETED_BY_ID", referencedColumnName="ID")
+     * })
      */
     protected $deletedBy;
 
     /**
      * @var User
      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\User")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="SUSPENDED_BY_ID", referencedColumnName="ID")
+     * })
      */
     private $suspendedBy;
 
     /**
      * @var User
      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\User")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="ACTIVATED_BY_ID", referencedColumnName="ID")
+     * })
      */
     private $activatedBy;
 
@@ -292,14 +305,7 @@ class User implements AdvancedUserInterface, \Serializable
      */
     private $activatedAt;
 
-    /**
-     * Class construct
-     *
-     */
-    public function __construct()
-    {
-        $this->userRoles = new ArrayCollection();
-    }
+
 
 
     /**
@@ -351,8 +357,8 @@ class User implements AdvancedUserInterface, \Serializable
      */
     public function finalizeUser()
     {
-        if (null === $this->getUsername()) {
-            $this->setUsername($this->getEmail());
+        if (null === $this->getUsername() && is_object($this->getParty())) {
+            $this->setUsername($this->getParty()->getContact()->getPrivateEmail());
         }
 
         if (null === $this->getExpiresAt()) {
@@ -365,8 +371,8 @@ class User implements AdvancedUserInterface, \Serializable
      * @ORM\PreUpdate()
      */
     public function emailUsernameSync(){
-        if ($this->getEmail() != $this->getUsername()) {
-            $this->setUsername($this->getEmail());
+        if ($this->getParty()->getContact()->getPrivateEmail() != $this->getUsername()) {
+            $this->setUsername($this->getParty()->getContact()->getPrivateEmail());
         }
     }
 
@@ -392,9 +398,6 @@ class User implements AdvancedUserInterface, \Serializable
     {
         return serialize(array(
             $this->id,
-            $this->firstName,
-            $this->lastName,
-            $this->email,
             $this->username,
             $this->password,
         ));
@@ -526,15 +529,7 @@ class User implements AdvancedUserInterface, \Serializable
         return $this->transient;
     }
 
-    /**
-     * Get id
-     *
-     * @return integer
-     */
-    public function getId()
-    {
-        return $this->id;
-    }
+
 
     /**
      * Concat first and last name
@@ -543,7 +538,7 @@ class User implements AdvancedUserInterface, \Serializable
      */
     public function getFullName()
     {
-        $this->fullName = ucfirst($this->getFirstName()).' '.ucfirst($this->getLastName());
+        $this->fullName = ucfirst($this->getParty()->getFirstName()).' '.ucfirst($this->getParty()->getLastName());
         return $this->fullName;
     }
 
@@ -906,74 +901,7 @@ class User implements AdvancedUserInterface, \Serializable
         return $this->userRoles;
     }
 
-    /**
-     * Set status
-     *
-     * @param \AppBundle\Entity\Status $status
-     * @return User
-     */
-    public function setStatus(\AppBundle\Entity\Status $status = null)
-    {
-        $this->status = $status;
 
-        return $this;
-    }
-
-    /**
-     * Get status
-     *
-     * @return \AppBundle\Entity\Status
-     */
-    public function getStatus()
-    {
-        return $this->status;
-    }
-
-    /**
-     * Set group
-     *
-     * @param \AppBundle\Entity\UserGroup $group
-     * @return User
-     */
-    public function setGroup(\AppBundle\Entity\UserGroup $group = null)
-    {
-        $this->group = $group;
-
-        return $this;
-    }
-
-    /**
-     * Get group
-     *
-     * @return \AppBundle\Entity\UserGroup
-     */
-    public function getGroup()
-    {
-        return $this->group;
-    }
-
-    /**
-     * Set title
-     *
-     * @param \AppBundle\Entity\Title $title
-     * @return User
-     */
-    public function setTitle(\AppBundle\Entity\Title $title = null)
-    {
-        $this->title = $title;
-
-        return $this;
-    }
-
-    /**
-     * Get title
-     *
-     * @return \AppBundle\Entity\Title
-     */
-    public function getTitle()
-    {
-        return $this->title;
-    }
 
 
     /**
@@ -1183,5 +1111,72 @@ class User implements AdvancedUserInterface, \Serializable
     public function getParty()
     {
         return $this->party;
+    }
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->userRoles = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+
+
+
+    /**
+     * Set status
+     *
+     * @param \AppBundle\Entity\Status $status
+     *
+     * @return User
+     */
+    public function setStatus(\AppBundle\Entity\Status $status = null)
+    {
+        $this->status = $status;
+
+        return $this;
+    }
+
+    /**
+     * Get status
+     *
+     * @return \AppBundle\Entity\Status
+     */
+    public function getStatus()
+    {
+        return $this->status;
+    }
+
+    /**
+     * Set group
+     *
+     * @param \AppBundle\Entity\UserGroup $group
+     *
+     * @return User
+     */
+    public function setGroup(\AppBundle\Entity\UserGroup $group = null)
+    {
+        $this->group = $group;
+
+        return $this;
+    }
+
+    /**
+     * Get group
+     *
+     * @return \AppBundle\Entity\UserGroup
+     */
+    public function getGroup()
+    {
+        return $this->group;
+    }
+
+    /**
+     * Get id
+     *
+     * @return guid
+     */
+    public function getId()
+    {
+        return $this->id;
     }
 }

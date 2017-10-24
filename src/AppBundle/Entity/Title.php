@@ -21,7 +21,7 @@ class Title
     /**
      * @var string
      *
-     * @ORM\Column(name="ID", type="string", length=50)
+     * @ORM\Column(name="ID", type="string", length=30)
      * @ORM\Id
      * @Expose
      */
@@ -39,9 +39,13 @@ class Title
      *
      * @param $title
      */
-    public function __construct($title)
+    public function __construct($title = null)
     {
-       $this->title = $title;
+        if(!is_null($title)){
+            $this->id = strtoupper($title);
+            $this->title = $title;
+        }
+
     }
 
     /**

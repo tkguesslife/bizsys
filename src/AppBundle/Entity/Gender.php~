@@ -42,7 +42,10 @@ class Gender
      */
     public function __construct($name)
     {
-        $this->name = $name;
+        if(!is_null($name)) {
+            $this->name = $name;
+            $this->id = strtoupper($name);
+        }
     }
 
     /**

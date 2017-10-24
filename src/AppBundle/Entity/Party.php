@@ -153,7 +153,10 @@ class Party
 
     /**
      * @var string
-     * @ORM\Column(name="GENDER", type="string", length=50, nullable=true)
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Gender")
+     *   @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="GENDER",referencedColumnName="ID")
+     * })
      */
     protected $gender;
 
@@ -251,9 +254,14 @@ class Party
      */
     protected $deletedAt;
 
+
     public function __toString()
     {
-        return $this->firstname+' '+$this->surname;
+        return $this->getFirstName()." ".$this->getLastName()." ".$this->getRegisteredName();
+    }
+
+    public function getFullname(){
+        return $this->getFirstName()." ".$this->getLastName();
     }
 
     /**
@@ -266,51 +274,8 @@ class Party
         return $this->id;
     }
 
-    /**
-     * Set firstname
-     *
-     * @param string $firstname
-     * @return Party
-     */
-    public function setFirstname($firstname)
-    {
-        $this->firstname = $firstname;
 
-        return $this;
-    }
 
-    /**
-     * Get firstname
-     *
-     * @return string 
-     */
-    public function getFirstname()
-    {
-        return $this->firstname;
-    }
-
-    /**
-     * Set surname
-     *
-     * @param string $surname
-     * @return Party
-     */
-    public function setSurname($surname)
-    {
-        $this->surname = $surname;
-
-        return $this;
-    }
-
-    /**
-     * Get surname
-     *
-     * @return string 
-     */
-    public function getSurname()
-    {
-        return $this->surname;
-    }
 
     /**
      * Set title
@@ -473,28 +438,6 @@ class Party
         return $this->maritalStatus;
     }
 
-    /**
-     * Set gender
-     *
-     * @param string $gender
-     * @return Party
-     */
-    public function setGender($gender)
-    {
-        $this->gender = $gender;
-
-        return $this;
-    }
-
-    /**
-     * Get gender
-     *
-     * @return string 
-     */
-    public function getGender()
-    {
-        return $this->gender;
-    }
 
     /**
      * Set hasGuardian
@@ -913,5 +856,53 @@ class Party
     public function getSlug()
     {
         return $this->slug;
+    }
+
+    /**
+     * Set firstName
+     *
+     * @param string $firstName
+     *
+     * @return Party
+     */
+    public function setFirstName($firstName)
+    {
+        $this->firstName = $firstName;
+
+        return $this;
+    }
+
+    /**
+     * Get firstName
+     *
+     * @return string
+     */
+    public function getFirstName()
+    {
+        return $this->firstName;
+    }
+
+    /**
+     * Set gender
+     *
+     * @param \AppBundle\Entity\Gender $gender
+     *
+     * @return Party
+     */
+    public function setGender(\AppBundle\Entity\Gender $gender = null)
+    {
+        $this->gender = $gender;
+
+        return $this;
+    }
+
+    /**
+     * Get gender
+     *
+     * @return \AppBundle\Entity\Gender
+     */
+    public function getGender()
+    {
+        return $this->gender;
     }
 }

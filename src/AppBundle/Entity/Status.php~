@@ -50,6 +50,7 @@ class Status
      */
     public function __construct($name,$code)
     {
+        $this->id = strtoupper($name);
         $this->name = $name;
         $this->code = $code;
     }
