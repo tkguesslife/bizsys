@@ -1,0 +1,6 @@
+dashboard.home:
+    path: /dashboard/home.{_format}
+    defaults: { _controller: AppBundle:Dashboard:home, _format: html}
+    requirements:
+        methods: GET
+        _format: html

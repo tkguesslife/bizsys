@@ -32,7 +32,7 @@ security:
                 check_path: _security_check
                 login_path: /login.html
                 target_path_parameter: redirect_url
-                default_target_path: /secured/dashboard.html
+                default_target_path: /app/dashboard/home.html
                 # by default, the login form *must* be a POST, not a GET
                 post_only:      true
                 remember_me:    true
@@ -56,4 +56,4 @@ security:
     access_control:
         - { path: ^/login.html, roles: IS_AUTHENTICATED_ANONYMOUSLY, requires_channel: http }
         - { path: ^/login_check, roles: IS_AUTHENTICATED_ANONYMOUSLY, requires_channel: http }
-        - { path: ^/secured/*, roles: [IS_AUTHENTICATED_FULLY,IS_AUTHENTICATED_REMEMBERED], requires_channel: http }
+        - { path: ^/app/*, roles: [IS_AUTHENTICATED_FULLY,IS_AUTHENTICATED_REMEMBERED], requires_channel: http }

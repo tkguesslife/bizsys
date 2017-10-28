@@ -5,3 +5,12 @@ app:
 app_user:
     resource: "@AppBundle/Resources/config/routing.security.yml"
     prefix:     /
+
+
+dashboard:
+    resource: "@AppBundle/Resources/config/routing.dashboard.yml"
+    prefix: /app/
+
+user:
+    resource: "@AppBundle/Resources/config/routing.user.yml"
+    prefix: /app/

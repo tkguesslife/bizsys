@@ -1,0 +1,6 @@
+user.profile:
+    path: /user/profile/{slug}.{_format}
+    defaults: { _controller: AppBundle:User:profile, _format: html}
+    requirements:
+        methods: GET
+        _format: html
