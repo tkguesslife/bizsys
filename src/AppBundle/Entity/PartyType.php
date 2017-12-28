@@ -39,6 +39,11 @@ class PartyType
      */
     private $partyType;
 
+    public function __toString()
+    {
+        return $this->partyType;
+    }
+
 
     /**
      * Set id

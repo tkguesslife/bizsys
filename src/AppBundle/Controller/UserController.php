@@ -26,7 +26,7 @@ class UserController extends Controller
         $logger = $this->get('logger');
         $logger->info("DashboardController homeAction()");
 
-        $profileForm = $this->createForm('PartyShowType', $user);
+        $profileForm = $this->createForm('UserProfileType', $user);
         return $this->render('@App/user/profile.html.twig', array(
             'form' => $profileForm->createView()
         ));

@@ -1,6 +1,7 @@
 <?php
 namespace AppBundle\Form\Type\User;
 
+use AppBundle\Form\Type\Organisation\OrganisationShowType;
 use AppBundle\Form\Type\Party\PartyShowType;
 use Symfony\Component\Form\AbstractType;
 use JMS\DiExtraBundle\Annotation as DI;
@@ -27,7 +28,47 @@ class UserProfileType extends AbstractType
     {
             $builder
                 ->add('party', new PartyShowType())
+                ->add('organisation', new OrganisationShowType())
+                ->add('createdAt', 'datetime', array(
+                    'label' => 'Created At ',
+                    'widget' => 'single_text',
+                    'format' => 'yyyy-MM-dd  HH:m:s a',
+                    'attr' => array(
+                        'class' => 'form-control',
+                    ),
+                    'disabled' => true,
+                ))
 
+                ->add('updatedAt', 'datetime', array(
+                    'label' => 'Updated At ',
+                    'widget' => 'single_text',
+                    'format' => 'yyyy-MM-dd  HH:m:s a',
+                    'attr' => array(
+                        'class' => 'form-control',
+                    ),
+                    'disabled' => true,
+                ))
+
+                ->add('lastLogin', 'datetime', array(
+                    'label' => 'Last login At ',
+                    'widget' => 'single_text',
+                    'format' => 'yyyy-MM-dd  HH:m:s a',
+                    'attr' => array(
+                        'class' => 'form-control',
+                    ),
+                    'disabled' => true,
+                ))
+
+                ->add('createdBy', 'entity', array(
+                    'placeholder' => 'Select a gender',
+                    'class' => 'AppBundle:User',
+                    'label' => 'Created By ',
+                    'placeholder' => 'Default System user',
+                    'attr' => array(
+                        'class' => 'form-control',
+                    ),
+                    'disabled' => true,
+                ))
                 ;
     }
 

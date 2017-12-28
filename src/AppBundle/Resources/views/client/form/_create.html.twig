@@ -1,0 +1,58 @@
+<form method="post" action="{{ path('app.client.add') }}.html" class="form-horizontal form-label-left">
+    <div class="" role="tabpanel" data-example-id="togglable-tabs">
+        <ul id="myTab" class="nav nav-tabs bar_tabs" role="tablist">
+            <li role="presentation" class="active"><a href="#tab_personal" id="personal-tab" role="tab"
+                                                      data-toggle="tab" aria-expanded="true">Details</a>
+            </li>
+            <li role="presentation" class=""><a href="#tab_contact" role="tab" id="contact-tab"
+                                                data-toggle="tab" aria-expanded="false">Contacts</a>
+            </li>
+            <li role="presentation" class=""><a href="#tab_additional" role="tab" id="additional-tab"
+                                                data-toggle="tab" aria-expanded="false">Address
+                    info</a>
+            </li>
+        </ul>
+        <div id="myTabContent" class="tab-content">
+            <div role="tabpanel" class="tab-pane fade active in" id="tab_personal"
+                 aria-labelledby="personal-tab">
+                {{ form_row(form.party.partyType) }}
+                {{ form_row(form.party.registeredName) }}
+                {{ form_row(form.party.title) }}
+                {{ form_row(form.party.firstName) }}
+                {{ form_row(form.party.lastName) }}
+
+            </div>
+            <div role="tabpanel" class="tab-pane fade" id="tab_contact" aria-labelledby="personal-tab">
+                {{ form_row(form.party.contact.cellphone) }}
+                {{ form_row(form.party.contact.privateEmail) }}
+            </div>
+            <div role="tabpanel" class="tab-pane fade" id="tab_additional" aria-labelledby="additional-tab">
+                <h4>Postal address</h4>
+                <hr/>
+                {{ form_row(form.party.postalAddress.line1) }}
+                {{ form_row(form.party.postalAddress.line2) }}
+                {{ form_row(form.party.postalAddress.line3) }}
+                {{ form_row(form.party.postalAddress.suburb) }}
+                {{ form_row(form.party.postalAddress.city) }}
+                {{ form_row(form.party.postalAddress.areaCode) }}
+
+                <h4>Physical address</h4>
+                <hr/>
+                {{ form_row(form.party.physicalAddress.line1) }}
+                {{ form_row(form.party.physicalAddress.line2) }}
+                {{ form_row(form.party.physicalAddress.line3) }}
+                {{ form_row(form.party.physicalAddress.suburb) }}
+                {{ form_row(form.party.physicalAddress.city) }}
+                {{ form_row(form.party.physicalAddress.areaCode) }}
+            </div>
+        </div>
+        {{ form_rest(form) }}
+    </div>
+    <div class="form-group">
+        <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
+            <button class="btn btn-primary" type="button">Cancel</button>
+            <button class="btn btn-primary" type="reset">Reset</button>
+            <button type="submit" class="btn btn-success">Submit</button>
+        </div>
+    </div>
+</form>

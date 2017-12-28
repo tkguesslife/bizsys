@@ -122,6 +122,15 @@ class LoadBaseStatusData extends AbstractFixture implements OrderedFixtureInterf
         $excluded = new Status('Excluded', 330);
         $manager->persist($excluded);
 
+        $quoted = new Status("Quoted", 400);
+        $manager->persist($quoted);
+
+        $invoiced = new Status("Invoiced", 410);
+        $manager->persist($invoiced);
+
+        $paid = new Status("Paid", 420);
+        $manager->persist($paid);
+
         $manager->flush();
 
         $this->addReference('status-active', $active);

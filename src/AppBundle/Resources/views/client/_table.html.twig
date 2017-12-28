@@ -1,0 +1,34 @@
+<table id="datatable" class="table table-striped table-bordered">
+    <thead>
+    <tr>
+        <th>#</th>
+        <th>Organisation</th>
+        <th>Registered name</th>
+        <th>Contact</th>
+        <th>Created at</th>
+        <th>Created by</th>
+        <th>Actions</th>
+    </tr>
+    </thead>
+
+
+    <tbody>
+    {% for client in pagination %}
+        <tr>
+            <td>{{ loop.index }}</td>
+            <td>{{ client.organisation }}</td>
+            <td>{{ client.party.partyType }}</td>
+            <td>{{ client.party.registeredName }}</td>
+            <td>{{ client.party.fullname }}</td>
+            <td>{{ client.createdAt | date('Y-m-d H:i') }}</td>
+            <td>{{ client.createdBy }}</td>
+            <td><a title="Edit" href="{{ path('app.client.edit', {id: client.id}) }}.html">Edit</a></td>
+        </tr>
+    {% else %}
+        <tr>
+            <td colspan="8"><em>No records found.</em></td>
+        </tr>
+    {% endfor %}
+
+    </tbody>
+</table>

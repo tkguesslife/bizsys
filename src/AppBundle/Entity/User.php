@@ -305,7 +305,21 @@ class User implements AdvancedUserInterface, \Serializable
      */
     private $activatedAt;
 
+    public function __toString()
+    {
+        return $this->getFullname();
+    }
 
+    public function getFullname(){
+        if(is_object($party = $this->getParty())){
+
+            $this->fullName =  $party->getTitle() .' '. $party->getFirstName().' '.$party->getLastName();
+            return $this->fullName;
+        }else{
+            return $this->slug;
+        }
+
+    }
 
 
     /**
@@ -530,17 +544,6 @@ class User implements AdvancedUserInterface, \Serializable
     }
 
 
-
-    /**
-     * Concat first and last name
-     *
-     * @return string
-     */
-    public function getFullName()
-    {
-        $this->fullName = ucfirst($this->getParty()->getFirstName()).' '.ucfirst($this->getParty()->getLastName());
-        return $this->fullName;
-    }
 
     /**
      * Set username

@@ -3,6 +3,7 @@
 
 namespace AppBundle\Form\Type\Party;
 
+use AppBundle\Form\Type\Contact\ContactShowType;
 use JMS\DiExtraBundle\Annotation as DI;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -21,38 +22,40 @@ class PartyShowType extends AbstractType
 
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-//        $builder
-//            ->add('title', 'entity', array(
-//                    'class' => 'AppBundle\Entity\Title',
-//                    'label' => 'Title',
-//                    'attr' => array(
-//                        'class' => 'form-control'
-//                    ),
-//                    'disabled' => true
-//                )
-//            )
-//            ->add('firstName', 'text', array(
-//                    'label' => 'Firstname',
-//                    'attr' => array(
-//                        'class' => 'form-control'
-//                    ),
-//                    'disabled' => true
-//                )
-//            )
-//            ->add('lastName', 'text', array(
-//                'label' => 'Last name',
-//                'attr' => array(
-//                    'class' => 'form-control'
-//                ),
-//                'disabled' => true
-//            ))
-//            ->add('registeredName', 'text', array(
-//                'label' => 'Registered name',
-//                'attr' => array(
-//                    'class' => 'form-control'
-//                ),
-//                'disabled' => true
-//            ));
+        $builder
+            ->add('title', 'entity', array(
+                    'class' => 'AppBundle\Entity\Title',
+                    'label' => 'Title',
+                    'attr' => array(
+                        'class' => 'form-control'
+                    ),
+                    'disabled' => true
+                )
+            )
+            ->add('firstName', 'text', array(
+                    'label' => 'Firstname',
+                    'attr' => array(
+                        'class' => 'form-control'
+                    ),
+                    'disabled' => true
+                )
+            )
+            ->add('lastName', 'text', array(
+                'label' => 'Last name',
+                'attr' => array(
+                    'class' => 'form-control'
+                ),
+                'disabled' => true
+            ))
+            ->add('registeredName', 'text', array(
+                'label' => 'Registered name',
+                'attr' => array(
+                    'class' => 'form-control'
+                ),
+                'disabled' => true
+            ))
+        ->add('contact', new ContactShowType())
+        ;
     }
 
     /**
@@ -61,7 +64,7 @@ class PartyShowType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
-//            'data_class' => 'AppBundle\Entity\Party'
+            'data_class' => 'AppBundle\Entity\Party'
         ));
     }
 

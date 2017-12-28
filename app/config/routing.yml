@@ -14,3 +14,7 @@ dashboard:
 user:
     resource: "@AppBundle/Resources/config/routing.user.yml"
     prefix: /app/
+
+client:
+    resource: "@AppBundle/Resources/config/routing.client.yml"
+    prefix: /app/

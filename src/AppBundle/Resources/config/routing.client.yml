@@ -1,0 +1,20 @@
+app.client.add:
+  path: /client/add.{_format}
+  defaults: { _controller: AppBundle:Client:add, _format: html }
+  requirements:
+      methods: GET | POST
+      _format: html
+
+app.client.edit:
+  path: /client/{id}/edit.{_format}
+  defaults: { _controller: AppBundle:Client:edit, _format: html }
+  requirements:
+      methods: GET | POST
+      _format: html
+
+app.client.list:
+  path: /client/list.{_format}
+  defaults: { _controller: AppBundle:Client:list, _format: html }
+  requirements:
+      methods: GET
+      _format: html

@@ -52,6 +52,9 @@ twig:
            g_site_url: %site_url%
            g_site_domain: %site_domain%
            g_site_version: %site_version%
+    form:
+           resources:
+                  - 'AppBundle:form:fields.html.twig'
 
 # Doctrine Configuration
 doctrine:

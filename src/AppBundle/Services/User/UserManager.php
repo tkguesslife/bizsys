@@ -3,6 +3,7 @@
 
 namespace AppBundle\Services\User;
 
+use AppBundle\Entity\Organisation;
 use Doctrine\ORM\EntityManager;
 use AppBundle\Entity\User;
 use JMS\DiExtraBundle\Annotation as DI;
@@ -91,6 +92,17 @@ class UserManager {
             return $this->securityContext->getToken()->getUser();
         }
 
+        return false;
+    }
+
+    /**
+     * @return Organisation|bool
+     */
+    public function getCurrentUserOrganisation(){
+        $this->logger->info('UserManager getCurrentUserOrganisation()');
+        if(is_object($user = $this->getCurrentUser())){
+            return $user->getOrganisation();
+        }
         return false;
     }
 

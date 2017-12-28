@@ -17,3 +17,4 @@
 /web/bower_components/
 /app/var/*
 /web/npm-debug.log
+/app/sessions/*

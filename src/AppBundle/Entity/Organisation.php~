@@ -159,6 +159,13 @@ class Organisation
      */
     private $activatedBy;
 
+    public function __toString()
+    {
+        if(is_object($this->party)){
+            return $this->party->__toString();
+        }
+    }
+
     /**
      * Class construct
      */
